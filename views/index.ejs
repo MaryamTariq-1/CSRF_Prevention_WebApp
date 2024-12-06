@@ -4,45 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSRF Prevention Project</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">CSRF Prevention</a>
+            <a class="navbar-brand text-white" href="#">CSRF Prevention</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#hero">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#auth">Sign Up</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="hero" class="vh-100 text-white bg-primary text-center d-flex flex-column justify-content-center align-items-center">
+    <section id="hero" class="hero-section">
         <h1>Welcome to CSRF Prevention</h1>
-        <p class="lead">A secure solution to protect against Cross-Site Request Forgery attacks</p>
-        <a href="#about" class="btn btn-light mt-3">Learn More</a>
+        <p class="lead">A solution to protect Cross-Site Request Forgery attacks</p>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-5">
+    <section id="about" class="about-section">
         <div class="container">
             <h2 class="text-center mb-4">About This Project</h2>
             <p>This project demonstrates how to prevent CSRF attacks using modern techniques like anti-CSRF tokens, same-site cookies, and referrer validation. It is built with Node.js, Express.js, and Bootstrap for a secure and interactive experience.</p>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-5 bg-light">
+    <section id="features" class="features-section">
         <div class="container">
             <h2 class="text-center mb-4">Key Features</h2>
             <div class="row">
@@ -55,36 +50,63 @@
                     <p>Prevents cross-origin attacks by setting strict cookie policies.</p>
                 </div>
                 <div class="col-md-4">
-                    <h4>Future Scope</h4>
-                    <p>Plan to integrate OAuth2.0 and advanced security protocols.</p>
+                    <h4>CSRF-PREVENTION</h4>
+                    <p>A solution to protect Cross-Site Request Forgery attacks </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Contact Us</h2>
-            <form action="/submit" method="POST" class="row g-3">
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="col-12">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+    <!-- Authentication Section -->
+     <!-- Authentication Section -->
+<section id="auth" class="auth-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Here you go! :)</h2>
+        <div class="row justify-content-center w-100">
+            <!-- Sign Up Form -->
+            <div class="col-md-6 col-lg-4">
+                <h4 class="text-center">Sign Up</h4>
+                <form action="/signup" method="POST">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label for="signup-name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="signup-name" name="name" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="signup-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signup-email" name="email" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="signup-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signup-password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                </form>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
+       
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CSRF Prevention Project. All rights reserved.</p>
+            <p>
+                <a href="https://github.com/MaryamTariq-1/CSRF_Prevention_WebApp" class="text-white text-decoration-none" target="_blank">GitHub</a> | 
+                <a href="https://www.linkedin.com/in/maryamtariq1/" class="text-white text-decoration-none" target="_blank">LinkedIn</a> | 
+                <a href="mailto:marymughal216@gmail.com" class="text-white text-decoration-none">Contact Us</a>
+            </p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>

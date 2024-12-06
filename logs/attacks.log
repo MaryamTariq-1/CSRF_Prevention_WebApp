@@ -1,0 +1,6 @@
+[2024-12-06T12:34:56.789Z] CSRF Attack Detected:
+IP: ::1
+URL: /signup
+Reason: Invalid or missing CSRF token
+Headers: {"host":"localhost:4000","user-agent":"PostmanRuntime/7.26.8","accept":"*/*",...}
+Body: {"_csrf":"fake-token","name":"Attacker","email":"attacker@example.com","password":"123456"}
