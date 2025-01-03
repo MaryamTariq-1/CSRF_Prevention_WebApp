@@ -3,22 +3,29 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["csrf", "security", "express", "webapp"],
+  "author": "Maryam Tariq",
   "license": "ISC",
-  "description": "",
+  "description": "A demonstration of CSRF prevention techniques using Express.js",
   "dependencies": {
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "cookie-parser": "^1.4.7",
     "csurf": "^1.10.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.1"
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
     "supertest": "^7.0.0"
+  },
+  "directories": {
+    "test": "tests"
   }
 }

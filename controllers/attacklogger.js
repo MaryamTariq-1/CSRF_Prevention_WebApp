@@ -6,7 +6,7 @@ const path = require('path');
  * @param {string} message - The log message describing the attack.
  */
 function logAttack(message) {
-    const logFilePath = path.join(__dirname, '../logs/attack.log');
+    const logFilePath = path.join(__dirname, '../logs/attacks.log');
     const logMessage = `${new Date().toISOString()} - ${message}\n`;
 
     // Ensure the logs directory exists

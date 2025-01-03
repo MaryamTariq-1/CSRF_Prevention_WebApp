@@ -1,6 +1,4 @@
-# CSRF_Prevention_WebApp
-
-Here’s the cleaned and consolidated version of your README file:
+Here's the updated and complete **`README.md`** file tailored to your project:
 
 ---
 
@@ -8,25 +6,37 @@ Here’s the cleaned and consolidated version of your README file:
 
 This project demonstrates effective prevention techniques against Cross-Site Request Forgery (CSRF) attacks using **Node.js**, **Express.js**, and **Bootstrap**.
 
+---
+
+## **Overview**
+CSRF (Cross-Site Request Forgery) is a type of attack where malicious actors trick users into performing unintended actions on a trusted web application where they're authenticated. This project showcases:
+- How CSRF attacks work.
+- Methods to mitigate CSRF vulnerabilities.
+- Hands-on implementation of secure practices using middleware and tokens.
+
+---
+
 ## **Project Objective**
-The objective of this project is to educate and showcase how CSRF attacks can be mitigated by implementing:
-- CSRF Token Validation
-- Same-Site Cookies
-- Referrer Validation
+The goal of this project is to educate developers and demonstrate how CSRF attacks can be mitigated using:
+1. **CSRF Token Validation**
+2. **Same-Site Cookies**
+3. **Referrer Validation**
+
+---
 
 ## **Features**
-1. Secure Routes with CSRF Token Protection.
-2. Simulated Vulnerable Routes to demonstrate attacks.
-3. Attack Logging for monitoring suspicious activities.
-4. User-Friendly Interface built with Bootstrap.
+1. **Secure Routes**: Protected with CSRF tokens to prevent malicious requests.
+2. **Simulated Vulnerabilities**: Demonstrates insecure endpoints for learning purposes.
+3. **Attack Logging**: Captures and logs suspicious or malicious activities.
+4. **Bootstrap-Based UI**: Provides a responsive and user-friendly interface.
 
 ---
 
 ## **Setup Instructions**
 
 ### **Prerequisites**
-- Node.js (v14 or later)
-- npm (v6 or later)
+- **Node.js**: v14 or later
+- **npm**: v6 or later
 
 ### **Installation**
 1. Clone the repository:
@@ -42,7 +52,7 @@ The objective of this project is to educate and showcase how CSRF attacks can be
 
 3. Start the server:
    ```bash
-   npm start
+   npx nodemon app.js
    ```
 
 4. Open your browser and navigate to:
@@ -54,101 +64,131 @@ The objective of this project is to educate and showcase how CSRF attacks can be
 
 ## **Testing the Project**
 
-To test the project, install Jest and Supertest:
+### **Prerequisites for Testing**
+- Install Jest and Supertest for automated testing:
+  ```bash
+  npm install jest supertest --save-dev
+  ```
+
+### **Run Tests**
+Run the tests using Jest:
 ```bash
-npm install jest supertest --save-dev
 npx jest
 ```
 
-### **Automated Tests**
-We use `jest` and `supertest` for testing CSRF protection. The tests include:
-1. **Valid CSRF Token Test:** Ensures requests with valid tokens succeed.
-2. **Missing CSRF Token Test:** Ensures requests without tokens are rejected.
-3. **Invalid CSRF Token Test:** Ensures requests with invalid tokens are rejected.
-
-### Example Test Code (`csrf.test.js`):
-```javascript
-const request = require('supertest');
-const app = require('./app');
-
-describe('CSRF Protection Tests', () => {
-    let csrfToken;
-
-    beforeAll(async () => {
-        const res = await request(app).get('/');
-        csrfToken = /name="_csrf" value="(.+?)"/.exec(res.text)[1];
-    });
-
-    it('should allow POST requests with valid CSRF tokens', async () => {
-        const res = await request(app)
-            .post('/signup')
-            .set('Cookie', `csrfToken=${csrfToken}`)
-            .send({ _csrf: csrfToken, name: 'Test User', email: 'test@example.com', password: 'password123' });
-
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain('Signup successful!');
-    });
-
-    it('should reject POST requests with missing CSRF tokens', async () => {
-        const res = await request(app).post('/signup').send({
-            name: 'Test User',
-            email: 'test@example.com',
-            password: 'password123',
-        });
-
-        expect(res.statusCode).toBe(403);
-        expect(res.text).toContain('Forbidden');
-    });
-
-    it('should reject POST requests with invalid CSRF tokens', async () => {
-        const res = await request(app)
-            .post('/signup')
-            .set('Cookie', `csrfToken=invalidToken`)
-            .send({ _csrf: 'invalidToken', name: 'Test User', email: 'test@example.com', password: 'password123' });
-
-        expect(res.statusCode).toBe(403);
-        expect(res.text).toContain('Invalid CSRF token');
-    });
-});
-```
+### **Test Coverage**
+- **CSRF Protection**
+  - Valid token: Request succeeds.
+  - Missing token: Request is rejected.
+  - Invalid token: Request is rejected.
+- **Authentication**
+  - Valid signup data: User is registered.
+  - Missing/invalid data: Signup fails.
+- **Attack Logging**
+  - Malicious requests are logged in `logs/attacks.log`.
 
 ---
 
-## **Accessing Routes**
+## **How to Use**
 
-### **Secure Route**
-- **URL:** `http://localhost:4000/`
-- **Purpose:** Demonstrates a form protected by CSRF tokens.
-- **Steps:**
-  1. Submit data through the signup form.
-  2. The server validates the CSRF token before processing the request.
+### **Secure Routes**
+1. **Home Page**: 
+   - URL: `http://localhost:4000/`
+   - Includes a CSRF-protected signup form.
 
-### **Vulnerable Route**
-- **URL:** `http://localhost:4000/vulnerable-action`
-- **Purpose:** Simulates a CSRF attack via a malicious HTML page.
-- **Steps:**
-  1. Open `malicious.html` in your browser.
-  2. Click the "Execute Malicious Action" button to simulate an attack.
-  3. The server logs the attack attempt.
+2. **CSRF Demo**:
+   - URL: `http://localhost:4000/csrf_demo`
+   - Demonstrates a form protected by CSRF tokens.
+
+3. **View Logs**:
+   - URL: `http://localhost:4000/logs`
+   - Displays recorded attack logs.
+
+---
+
+### **Simulating a CSRF Attack**
+1. Open the `tests/malicious.html` file in your browser.
+2. Submit the form targeting:
+   ```
+   http://localhost:4000/vulnerable-action
+   ```
+3. **Expected Outcome**:
+   - The server rejects the request and logs the attack.
 
 ---
 
 ## **Folder Structure**
 
-- **`public/`**: Contains static assets like CSS and JavaScript.
-- **`views/`**: Contains EJS templates for rendering web pages.
-- **`controllers/`**: Includes the `attacklogger.js` for logging attack attempts.
-- **`logs/`**: Stores attack logs.
-- **`app.js`**: Main server logic.
+```
+CSRF_Prevention_WebApp/
+├── controllers/
+│   ├── attacklogger.js    # Handles attack logging.
+│   ├── authController.js  # Handles signup functionality.
+│   ├── csrfController.js  # Simulates CSRF attacks.
+│   └── logController.js   # Retrieves attack logs.
+├── logs/
+│   └── attacks.log        # Stores attack logs.
+├── public/
+│   ├── css/               # Contains stylesheets.
+│   ├── js/                # Contains JavaScript files.
+│   └── malicious.html     # Simulates CSRF attacks.
+├── tests/
+│   ├── auth.test.js       # Automated tests for authentication.
+│   ├── csrf.test.js       # Automated tests for CSRF protection.
+│   └── malicious.html     # Test for CSRF vulnerability.
+├── views/
+│   ├── index.ejs          # Home page with CSRF-protected forms.
+│   ├── signup.ejs         # Signup page.
+│   └── error.ejs          # Error handling page.
+├── app.js                 # Main application logic.
+├── package.json           # Node.js dependencies and scripts.
+├── package-lock.json      # Dependency lock file.
+└── README.md              # Project documentation.
+```
+
+---
+
+## **Key Endpoints**
+
+### **Secure Endpoints**
+1. **Home Page**: 
+   - URL: `http://localhost:4000/`
+   - Displays the CSRF-protected form.
+
+2. **Sign Up**:
+   - URL: `http://localhost:4000/signup`
+   - Handles form submission with CSRF token validation.
+
+3. **CSRF Demo**:
+   - URL: `http://localhost:4000/csrf_demo`
+   - Protected demo endpoint for CSRF validation.
+
+### **Vulnerable Endpoints**
+1. **Simulate Malicious Request**:
+   - URL: `http://localhost:4000/vulnerable-action`
+   - Accepts malicious data (for testing purposes).
+
+---
+
+## **Security Practices Implemented**
+1. **CSRF Tokens**:
+   - Unique tokens embedded in forms and validated server-side.
+
+2. **Same-Site Cookies**:
+   - Cookies set with `SameSite=Strict` and `HttpOnly`.
+
+3. **Referrer Validation**:
+   - Blocks requests with invalid or missing referrers.
+
+4. **Attack Logging**:
+   - Logs all invalid requests and attacks for auditing.
 
 ---
 
 ## **Contact**
+For questions, suggestions, or contributions, feel free to reach out:
 
-For queries, reach out via:
-- **GitHub:** [MaryamTariq-1](https://github.com/MaryamTariq-1)
-- **LinkedIn:** [Maryam Tariq](https://www.linkedin.com/in/maryamtariq1/)
-- **Email:** marymughal216@gmail.com
-
----
+- **GitHub**: [MaryamTariq-1](https://github.com/MaryamTariq-1)
+- **LinkedIn**: [Maryam Tariq](https://www.linkedin.com/in/maryamtariq1/)
+- **Email**: marymughal216@gmail.com
 
