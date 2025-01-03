@@ -75,7 +75,42 @@ Run the tests using Jest:
 ```bash
 npx jest
 ```
+Here’s the formatted section for inclusion in your **`README.md`** file using proper Markdown syntax:
 
+---
+
+## **Test Results**
+
+The test suite verifies the functionality of CSRF protection and authentication features. Below are the results:
+
+```terminal 
+PASS  tests/csrf.test.js
+  CSRF and Authentication Tests
+    √ should register a new user (133 ms)
+    √ should allow a registered user to perform CSRF-protected actions (24 ms)
+    √ should reject requests with an invalid CSRF token (57 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        1.633 s, estimated 3 s
+Ran all test suites
+```
+
+### **Test Cases**
+1. **Register a New User**:
+   - Ensures a new user can successfully register with valid data.
+2. **Perform CSRF-Protected Actions**:
+   - Validates that authenticated users can perform protected actions with a valid CSRF token.
+3. **Reject Invalid CSRF Token**:
+   - Confirms that requests with an invalid CSRF token are correctly rejected.
+
+Run the tests using:
+```terminal
+npx jest
+```
+
+---
 ### **Test Coverage**
 - **CSRF Protection**
   - Valid token: Request succeeds.

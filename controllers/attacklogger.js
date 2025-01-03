@@ -1,27 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs').promises; // Use promise-based fs module
 
-/**
- * Logs attack attempts for CSRF or other vulnerabilities.
- * @param {string} message - The log message describing the attack.
- */
-function logAttack(message) {
+async function logAttack(message) {
     const logFilePath = path.join(__dirname, '../logs/attacks.log');
     const logMessage = `${new Date().toISOString()} - ${message}\n`;
 
-    // Ensure the logs directory exists
-    if (!fs.existsSync(path.dirname(logFilePath))) {
-        fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
+    try {
+        await fs.appendFile(logFilePath, logMessage);
+        console.log('Attack logged successfully.');
+    } catch (err) {
+        console.error('Failed to log attack:', err);
     }
-
-    // Append the log message to the file
-    fs.appendFile(logFilePath, logMessage, (err) => {
-        if (err) {
-            console.error('Failed to log attack:', err);
-        } else {
-            console.log('Attack logged successfully.');
-        }
-    });
 }
 
 module.exports = { logAttack };

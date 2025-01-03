@@ -1,60 +1,29 @@
-const fs = require('fs');
+// logController.js
+const fs = require('fs').promises;
 const path = require('path');
 
-/**
- * Retrieves and displays the attack logs in a readable format.
- */
-exports.getLogs = (req, res) => {
-    const logFilePath = path.join(__dirname, '../logs/attacks.log');
+async function logMessage(type, message) {
+    const logFilePath = path.join(__dirname, `../logs/${type}.log`);
+    const logEntry = `${new Date().toISOString()} - ${message}\n`;
 
-    // Check if the log file exists
-    if (!fs.existsSync(logFilePath)) {
-        return res.status(404).send('No logs found.');
+    try {
+        await fs.appendFile(logFilePath, logEntry);
+        console.log(`${type} logged successfully.`);
+    } catch (err) {
+        console.error(`Failed to log ${type}:`, err);
     }
+}
 
-    // Read the log file and send its content
-    fs.readFile(logFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading log file:', err);
-            return res.status(500).send('Failed to retrieve logs.');
-        }
+async function getLogs(req, res) {
+    const type = req.query.type || 'general'; // Assuming you want to filter logs by type
+    const logFilePath = path.join(__dirname, `../logs/${type}.log`);
 
-        // Display the logs in a preformatted block
-        res.send(`<pre>${data}</pre>`);
-    });
-};
-
-/**
- * Appends a log entry to the attack log file.
- * @param {string} message - The log message to be recorded.
- */
-exports.logAttack = (message, req = null) => {
-    const logFilePath = path.join(__dirname, '../logs/attacks.log');
-    const timestamp = new Date().toISOString();
-
-    // Include additional information if the request object is provided
-    const additionalInfo = req
-        ? `
-IP: ${req.ip}
-URL: ${req.originalUrl}
-Headers: ${JSON.stringify(req.headers, null, 2)}
-Body: ${JSON.stringify(req.body, null, 2)}
-        `
-        : '';
-
-    const logMessage = `[${timestamp}] ${message}${additionalInfo}\n\n`;
-
-    // Ensure the logs directory exists
-    if (!fs.existsSync(path.dirname(logFilePath))) {
-        fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
+    try {
+        const content = await fs.readFile(logFilePath, 'utf8');
+        res.send(content);
+    } catch (err) {
+        res.status(500).send(`Failed to read ${type} logs: ${err}`);
     }
+}
 
-    // Append the log message to the log file
-    fs.appendFile(logFilePath, logMessage, (err) => {
-        if (err) {
-            console.error('Error writing to log file:', err);
-        } else {
-            console.log('Attack logged successfully.');
-        }
-    });
-};
+module.exports = { logMessage, getLogs };

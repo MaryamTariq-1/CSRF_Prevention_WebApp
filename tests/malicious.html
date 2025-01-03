@@ -8,7 +8,7 @@
 <body>
     <h1>Simulating a CSRF Attack</h1>
     <p>This form attempts to submit malicious data to the target application without the user's consent.</p>
-    <form action="http://localhost:4000/secure-action" method="POST">
+    <form action="http://localhost:5000/secure-action" method="POST">
         <input type="hidden" name="data" value="malicious data">
         <button type="submit">Execute Malicious Action</button>
     </form>
