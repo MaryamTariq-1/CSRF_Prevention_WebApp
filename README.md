@@ -1,6 +1,3 @@
-Here's the updated and complete **`README.md`** file tailored to your project:
-
----
 
 # **CSRF Prevention WebApp**
 
